@@ -1,0 +1,72 @@
+name: fluix
+description: A new Flutter package project.
+version: 0.0.1
+author:
+homepage:
+
+environment:
+  sdk: ">=2.3.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+  uses-material-design: true
+  fonts:
+    - family:  LiquidIcons
+      fonts:
+      - asset: fonts/LiquidIcons.ttf
+    - family: Lato
+      fonts:
+        - asset: fonts/Lato-Regular.ttf
+        - asset: fonts/Lato-Italic.ttf
+          style: italic
+        - asset: fonts/Lato-Hairline.ttf
+          weight: 100
+        - asset: fonts/Lato-HairlineItalic.ttf
+          weight: 100
+          style: italic
+        - asset: fonts/Lato-Thin.ttf
+          weight: 200
+        - asset: fonts/Lato-ThinItalic.ttf
+          weight: 200
+          style: italic
+        - asset: fonts/Lato-Light.ttf
+          weight: 300
+        - asset: fonts/Lato-LightItalic.ttf
+          weight: 300
+          style: italic
+        - asset: fonts/Lato-Medium.ttf
+          weight: 500
+        - asset: fonts/Lato-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: fonts/Lato-Semibold.ttf
+          weight: 600
+        - asset: fonts/Lato-SemiboldItalic.ttf
+          weight: 600
+          style: italic
+        - asset: fonts/Lato-Bold.ttf
+          weight: 700
+        - asset: fonts/Lato-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: fonts/Lato-Heavy.ttf
+          weight: 800
+        - asset: fonts/Lato-HeavyItalic.ttf
+          weight: 800
+          style: italic
+        - asset: fonts/Lato-Black.ttf
+          weight: 900
+        - asset: fonts/Lato-BlackItalic.ttf
+          weight: 900
+          style: italic
