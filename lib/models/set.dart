@@ -103,7 +103,7 @@ class Part extends ChangeNotifier {
     notifyListeners();
   }
   decreaseOwned() {
-    if (_owned == 0) return;
+    if (owned <= 0) return;
     _owned = owned - 1;
     notifyListeners();
   }

@@ -195,23 +195,25 @@ class _ListCounterState extends State<ListCounter> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text("Gesamt: ${part.quantity}"),
+                child: Text("${part.quantity}"),
               ),
               SizedBox(
                 width: 50,
                 child: FluidInput(
                   decoration: InputDecoration(fillColor: Liquids.sensitiveGrey),
-                  controller: controller,
+                  //controller: controller,
                   keyboardType: TextInputType.number,
                   textInputAction: TextInputAction.done,
-                  onSubmitted: (String value) {
-                    int val = int.tryParse(value);
-                    if(val != null && val >= 0){
-                      if(val > part.quantity) val = part.quantity;
-                      part.owned = val;
-                    } 
-                    controller.text = part.owned.toString();
-                  },
+                  // onEditingComplete: () {
+                  //   if(controller.text == part.owned.toString()) return;
+                  //   int val = int.tryParse(controller.text);
+                  //   if(val != null && val >= 0){
+                  //     if(val > part.quantity) val = part.quantity;
+                  //     part.owned = val;
+                  //   } 
+                  //   controller.text = part.owned.toString();
+                  // },
+                  
                 ),
               ),
             ],

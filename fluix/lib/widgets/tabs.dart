@@ -6,8 +6,15 @@ class FluidTabs extends StatefulWidget {
   final int selected;
   final void Function(int) onChange;
   final MainAxisAlignment alignment;
+  final bool scrollable;
 
-  FluidTabs(this.tabs, {this.selected, this.onChange,this.alignment = MainAxisAlignment.start}) : assert(tabs != null);
+  FluidTabs(
+    this.tabs, {
+    this.selected,
+    this.onChange,
+    this.alignment = MainAxisAlignment.start,
+    this.scrollable = false,
+  }) : assert(tabs != null);
 
   @override
   _FluidTabsState createState() => _FluidTabsState();
@@ -31,24 +38,36 @@ class _FluidTabsState extends State<FluidTabs> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Row(
+    Widget row = Row(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: widget.alignment,
-          children: widget.tabs.map<Widget>(
-            (FluidTab tab) => GestureDetector(
-              onTap: () => setState(() {
-                selected = widget.tabs.indexOf(tab);
-                if(widget.onChange != null) widget.onChange(selected);
-              }),
-              child: getTab(tab),
-            ),
-          ).toList(),
+          children: widget.tabs
+              .map<Widget>(
+                (FluidTab tab) => GestureDetector(
+                  onTap: () => setState(() {
+                    selected = widget.tabs.indexOf(tab);
+                    if (widget.onChange != null) widget.onChange(selected);
+                  }),
+                  child: getTab(tab),
+                ),
+              )
+              .toList(),
+        );
+    if (widget.scrollable != null && widget.scrollable) {
+      row = SingleChildScrollView(
+          child: row,
+          scrollDirection: Axis.horizontal,
+      );
+    }
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        row,
+        SizedBox(
+          height: 8,
         ),
-        SizedBox(height: 8,),
         widget.tabs[selected].child ?? SizedBox()
-      ],
-    );
+      ]);
   }
 }
 

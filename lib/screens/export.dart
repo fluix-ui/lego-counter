@@ -72,6 +72,7 @@ class ExportScreen extends StatelessWidget {
                 child: SelectableTextCard(_toSet()),
               ),
             ],
+            scrollable: true,
           ),
         ],
       ),

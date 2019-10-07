@@ -49,9 +49,11 @@ class SetsScreen extends StatelessWidget {
           });
     }
 
-    onSearch() {
+    onSearch([String str]) {
+      if(str != null) searchControl.text = str;
       sets.clear();
       http.getSets(searchControl.text).then((json){
+        if(json["count"] == 0) return;
         sets.addJson(json);
         if(sets.sets.length == 1){
           openDetails(sets.sets[0]);
@@ -103,7 +105,7 @@ class SetsScreen extends StatelessWidget {
                 controller: searchControl,
                 hintText: "Suchen...",
                 textInputAction: TextInputAction.search,
-                onSubmitted: (String str) => onSearch(),
+                onSubmitted: (String str) => onSearch(str),
               ),
             ),
             SizedBox(
