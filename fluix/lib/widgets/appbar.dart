@@ -30,7 +30,7 @@ class FluidBar extends StatelessWidget implements PreferredSizeWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0).add(EdgeInsets.only(top: topPadding)),
         child: DefaultTextStyle(
-          style: theme.typography.h4,
+          style: theme.typography.h4.copyWith(color: Liquids.white),
           child: NavigationToolbar(
             centerMiddle: centerTitle,
             leading: navigator.canPop() && automaticallyImplyLeading ? FluidIconButton(

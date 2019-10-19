@@ -323,7 +323,6 @@ class FluidInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     var theme = FluidTheme.of(context);
 
     InputDecoration fluidDecoration = decoration ?? InputDecoration();
@@ -351,7 +350,7 @@ class FluidInput extends StatelessWidget {
       fillColor: fluidDecoration.fillColor ?? theme.inputBackground,
     );
 
-    TextField res = TextField(
+    Widget res = TextField(
       decoration: fluidDecoration,
       controller: this.controller,
       focusNode: this.focusNode,
@@ -386,6 +385,19 @@ class FluidInput extends StatelessWidget {
       buildCounter: this.buildCounter,
       scrollPhysics: this.scrollPhysics,
     );
+
+    if (onSubmitted != null) {
+      res = RawKeyboardListener(
+        focusNode: FocusNode(),
+        onKey: (event) {
+          if (event.runtimeType == RawKeyDownEvent &&
+              (event.logicalKey.keyId == 54)) {
+            onSubmitted(controller?.text ?? null);
+          }
+        },
+        child: res,
+      );
+    }
 
     if (label != null) {
       return Column(

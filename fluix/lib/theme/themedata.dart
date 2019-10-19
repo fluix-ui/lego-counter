@@ -52,7 +52,7 @@ class FluidThemeData {
       this.typography,
       this.tabsColor,
       this.defaultTextStyle,
-      this.fontFamily,
+      this.fontFamily = "Lato",
       this.cardColor,
       this.highlightButton})
       : assert(primary != null),
@@ -87,10 +87,11 @@ class FluidThemeData {
     final FluixTypography defaultTextTheme = FluixTypography.defaults();
     typography = defaultTextTheme.merge(typography);
 
-    if (fontFamily != null) {
-      typography = typography
-          .apply(TextStyle(fontFamily: fontFamily, color: Liquids.black));
-    }
+    typography = typography.apply(TextStyle(
+      fontFamily: fontFamily ?? 'Lato',
+      fontFamilyFallback: ['Roboto', 'sans-serif'],
+      color: Liquids.black,
+    ));
 
     if (brightness == FluidBrightness.normal) {
       inputBackground ??= Liquids.white;

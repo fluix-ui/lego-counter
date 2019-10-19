@@ -161,21 +161,25 @@ class _FluidButtonState extends State<FluidButton> {
       onTap: () => setActive(),
       onTapCancel: () => setFocus(false),
       onTapDown: (_) => setFocus(true),
-      child: Container(
-        constraints: BoxConstraints(maxHeight: 50, maxWidth: 300),
-        height: 50,
-        padding: widget.padding,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(6),
-        ),
-        child: IconTheme.merge(
-          data: IconThemeData(color: foreColor, size: 20),
-          child: DefaultTextStyle(
-            style: TextStyle(
-                color: foreColor, fontSize: 16, fontWeight: FontWeight.w900),
-            textAlign: TextAlign.center,
-            child: widget.child,
+      child: MouseRegion(
+          onHover: (_) => setFocus(true),
+          onExit: (_) => setFocus(false),
+          child: Container(
+          constraints: BoxConstraints(maxHeight: 50, maxWidth: 300),
+          height: 50,
+          padding: widget.padding,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: IconTheme.merge(
+            data: IconThemeData(color: foreColor, size: 20),
+            child: DefaultTextStyle(
+              style: TextStyle(
+                  color: foreColor, fontSize: 16, fontWeight: FontWeight.w900),
+              textAlign: TextAlign.center,
+              child: widget.child,
+            ),
           ),
         ),
       ),
