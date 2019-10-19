@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:lego_count/models/my_sets.dart';
 import 'package:lego_count/models/sets.dart';
 import 'package:provider/provider.dart';
+import 'dart:html' as html;
 
 class ImportScreen extends StatefulWidget {
   ImportScreen();
@@ -69,10 +70,10 @@ class _ImportScreenState extends State<ImportScreen> {
               FluidIconButton.primary(
                 icon: Icon(LiquidIcons.clip),
                 child: Text("Einfügen"),
-                onTap: () => Clipboard.getData("text/plain").then(
-                  (val) => setState(
+                onTap: () => html.window.navigator.clipboard.readText().then(
+                  (String val) => setState(
                     () {
-                      _controller.text = val.text;
+                      _controller.text = val;
                     },
                   ),
                 ),

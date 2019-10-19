@@ -390,8 +390,9 @@ class FluidInput extends StatelessWidget {
       res = RawKeyboardListener(
         focusNode: FocusNode(),
         onKey: (event) {
+          print(event.logicalKey.keyId);
           if (event.runtimeType == RawKeyDownEvent &&
-              (event.logicalKey.keyId == 54)) {
+              (event.logicalKey.keyId == 4295426088)) {
             onSubmitted(controller?.text ?? null);
           }
         },
