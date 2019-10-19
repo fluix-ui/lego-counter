@@ -1,12 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluix/fluix.dart';
 import 'package:lego_count/models/my_sets.dart';
 import 'package:lego_count/models/sets.dart';
-import 'package:lego_count/widgets/bottom_loader.dart';
 import 'package:lego_count/widgets/grid_card.dart';
 import 'package:lego_count/utils/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class SetsScreen extends StatelessWidget {
   TextEditingController searchControl = TextEditingController();
@@ -21,8 +20,8 @@ class SetsScreen extends StatelessWidget {
     LegoSets sets = LegoSets();
     MySets savedSets = Provider.of<MySets>(context);
 
-        openDetails(LegoSet item){
-      Navigator.of(context).pushNamed('/set/' + item.id);
+    openDetails(LegoSet item) {
+      Navigator.of(context).pushNamed('/set', arguments: item.id);
     }
 
     buildGridTile(LegoSet sett) {
@@ -30,10 +29,9 @@ class SetsScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Expanded(
-                child: CachedNetworkImage(
-                  imageUrl: sett.getImg(),
-                  errorWidget: (context,str,_) => Center(child: Text("Bild nicht erreichbar")),
-                  placeholder: (context,str) => Center(child: CircularProgressIndicator()),
+                child: FadeInImage.memoryNetwork(
+                  image: sett.getImg(),
+                  placeholder: kTransparentImage,
                 ),
               ),
               Text(
@@ -50,20 +48,21 @@ class SetsScreen extends StatelessWidget {
     }
 
     onSearch([String str]) {
-      if(str != null) searchControl.text = str;
+      if (str != null) searchControl.text = str;
       sets.clear();
-      http.getSets(searchControl.text).then((json){
-        if(json["count"] == 0) return;
+      http.getSets(searchControl.text).then((json) {
+        if (json["count"] == 0) return;
         sets.addJson(json);
-        if(sets.sets.length == 1){
+        if (sets.sets.length == 1) {
           openDetails(sets.sets[0]);
           searchControl.text = "";
           sets.clear();
-        } 
+        }
       });
     }
 
     _scrollListener() {
+      print(controller.position.maxScrollExtent);
       if (controller.position.pixels >
           controller.position.maxScrollExtent - 10) {
         sets.pagination++;

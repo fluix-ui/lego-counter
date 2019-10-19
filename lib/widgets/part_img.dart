@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluix/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:lego_count/models/set.dart';
@@ -19,13 +18,8 @@ class PartImage extends StatelessWidget {
       ),
       child: Stack(
         children: <Widget>[
-          CachedNetworkImage(
-            imageUrl: part.img ?? "img not found",
-            errorWidget: (context, str, _) => Center(
-              child: Text("Thumbnail nicht gefunden!"),
-            ),
-            placeholder: (context, str) =>
-                Center(child: CircularProgressIndicator()),
+          Image.network(
+            part.img,
           ),
           if(part.length != null) Positioned(
             right: 4,

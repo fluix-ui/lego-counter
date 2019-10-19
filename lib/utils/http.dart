@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:lego_count/models/set.dart';
+import 'package:lego_count/models/sets.dart';
 
 const String key = "77507a559eae02002151061d44901210";
 
@@ -16,12 +16,11 @@ Dio dio = new Dio(BaseOptions(
 Future<Map> getSets([String search, int page = 1]) async {
   var res = await dio.get<Map>('/sets',queryParameters: {
     "page": page,
-    "page_size":30,
+    "page_size":100,
     "ordering":"-num_parts",
     "key":key,
     "search": search
   });
-  //print(res.request.uri);
   return res.data;
 }
 

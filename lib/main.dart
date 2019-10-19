@@ -1,26 +1,24 @@
+
 import 'package:fluix/fluix.dart';
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:lego_count/utils/router.dart';
+import 'package:lego_count/screens/count_set.dart';
+import 'package:lego_count/screens/mysets.dart';
+import 'package:lego_count/screens/set_details.dart';
+import 'package:lego_count/screens/sets.dart';
 import 'package:lego_count/utils/storage.dart';
 import 'package:provider/provider.dart';
 
-import 'models/my_sets.dart';
-import 'models/sets.dart';
+import 'package:lego_count/models/my_sets.dart';
 
 void main(){
   //initStorage();
   runApp(MyApp());
 } 
-//test
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
-    Router router = new Router();
-    Routes.configureRoutes(router);
 
     MySets mysets = MySets();
 
@@ -35,7 +33,12 @@ class MyApp extends StatelessWidget {
       ],
       child: FluixApp(
         theme: FluidThemeData.vibrantCyan(),
-        onGenerateRoute: router.generator,
+        routes: {
+          '/sets': (c) => SetsScreen(),
+          '/': (c) => MySetsScreen(),
+          '/count': (c) => CountScreen(),
+          '/set': (c) => SetDetailsScreen(),
+        },
       ),
     );
 

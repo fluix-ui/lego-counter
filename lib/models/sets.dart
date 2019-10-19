@@ -1,12 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
-import 'package:hive/hive.dart';
 import 'package:lego_count/models/set.dart';
 export 'package:lego_count/models/set.dart';
 
-@HiveType()
 class LegoSets extends ChangeNotifier {
-  @HiveField(0)
   List<LegoSet> sets = [];
   int pagination = 1;
   int totalSets = 1;

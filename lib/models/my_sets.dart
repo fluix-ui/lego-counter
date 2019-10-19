@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:hive/hive.dart';
 import 'package:lego_count/models/sets.dart';
 import 'package:lego_count/utils/storage.dart';
 
@@ -14,12 +13,12 @@ class MySets extends ChangeNotifier {
     notifyListeners();
     return true;
   }
-  addAll(List<LegoSet> mysets){
+  void addAll(List<LegoSet> mysets){
     sets.addAll(mysets);
     notifyListeners();
   }
 
-  update(LegoSet myset){
+  void update(LegoSet myset){
     var i = sets.indexWhere((item) => item.id == myset.id);
     if(i == -1) sets.add(myset);
     else sets[i] = myset;
@@ -27,23 +26,23 @@ class MySets extends ChangeNotifier {
     notifyListeners();
   }
 
-  save(){
+  void save(){
     saveMySets(this);
   }
 
-  remove(LegoSet myset){
+  void remove(LegoSet myset){
     var i = sets.indexWhere((item) => item.id == myset.id);
     sets.remove(sets[i]);
     save();
     notifyListeners();
   }
 
-  clear(){
+  void clear(){
     sets = [];
     notifyListeners();
   }
 
-  toJson(){
+  List toJson(){
     return sets.map((sett) => sett.toJson()).toList();
   }
 

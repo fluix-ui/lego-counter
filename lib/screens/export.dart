@@ -1,8 +1,8 @@
 import 'package:fluix/fluix.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:lego_count/models/set.dart';
 import 'dart:convert';
+import 'dart:html' as html;
 
 class ExportScreen extends StatelessWidget {
   final LegoSet sett;
@@ -95,15 +95,14 @@ class SelectableTextCard extends StatelessWidget {
           FluidIconButton(
             icon: Icon(LiquidIcons.clip),
             child: Text("Kopieren"),
-            onTap: () => Clipboard.setData(ClipboardData(text: text)),
+            onTap: () => html.window.navigator.clipboard.writeText(text),
           ),
           SizedBox(
             height: 8,
           ),
           FluidCard(
-            child: SelectableText(
+            child: Text(
               text,
-              autofocus: true,
             ),
           ),
         ],

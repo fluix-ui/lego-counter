@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluix/fluix.dart';
 import 'package:lego_count/models/my_sets.dart';
@@ -8,14 +7,15 @@ import 'package:lego_count/widgets/custom_grid.dart';
 import 'package:lego_count/widgets/grid_card.dart';
 import 'package:lego_count/widgets/part_img.dart';
 import 'package:provider/provider.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class CountScreen extends StatelessWidget {
-
-  final String id;
-  CountScreen(this.id);
+  CountScreen();
 
   @override
   Widget build(BuildContext context) {
+    final String id = ModalRoute.of(context).settings.arguments;
+
     bool isList = false;
     MySets mysets = Provider.of<MySets>(context);
     var theme = FluidTheme.of(context);
@@ -27,12 +27,18 @@ class CountScreen extends StatelessWidget {
           var dataparts = item != null ? item.parts : null;
           List<Part> parts = dataparts;
 
-          search(String input){
-            parts = dataparts.where((part) => part.name.contains(input) || part.id.contains(input) || (part.length != null && input.contains(part.length.toString())) ).toList();
+          search(String input) {
+            parts = dataparts
+                .where((part) =>
+                    part.name.contains(input) ||
+                    part.id.contains(input) ||
+                    (part.length != null &&
+                        input.contains(part.length.toString())))
+                .toList();
           }
 
           return StatefulBuilder(
-                builder:(context,setState) =>  FluidShell(
+            builder: (context, setState) => FluidShell(
                 appBar: FluidBar(
                   color: theme.primary.darker,
                   title: Text("Set $id zählen"),
@@ -57,7 +63,8 @@ class CountScreen extends StatelessWidget {
                   children: <Widget>[
                     Builder(
                       builder: (context) {
-                        if (snapshot.connectionState == ConnectionState.waiting ||
+                        if (snapshot.connectionState ==
+                                ConnectionState.waiting ||
                             snapshot.data == null)
                           return Center(
                             child: CircularProgressIndicator(),
@@ -172,21 +179,19 @@ class _ListCounterState extends State<ListCounter> {
         TextEditingController controller =
             TextEditingController(text: part.owned.toString());
         return FluidListItem(
-          leading: CachedNetworkImage(
-            imageUrl: part.img,
+          leading: FadeInImage.memoryNetwork(
+            image: part.img,
+            placeholder: kTransparentImage,
             width: 50,
-            errorWidget: (context, str, _) => Center(
-              child: Text("Thumbnail nicht gefunden!"),
-            ),
-            placeholder: (context, str) => Center(
-              child: CircularProgressIndicator(),
-            ),
           ),
           title: LayoutBuilder(
-                      builder: (context,size) => Container(
+            builder: (context, size) => Container(
               constraints: BoxConstraints(maxWidth: size.maxWidth / 1.5),
               padding: const EdgeInsets.all(8.0),
-              child: Text(part.name,overflow: TextOverflow.ellipsis,),
+              child: Text(
+                part.name,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
           onTap: () => part.increaseOwned(),
@@ -210,10 +215,9 @@ class _ListCounterState extends State<ListCounter> {
                   //   if(val != null && val >= 0){
                   //     if(val > part.quantity) val = part.quantity;
                   //     part.owned = val;
-                  //   } 
+                  //   }
                   //   controller.text = part.owned.toString();
                   // },
-                  
                 ),
               ),
             ],

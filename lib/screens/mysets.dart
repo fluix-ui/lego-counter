@@ -1,14 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluix/fluix.dart';
 import 'package:lego_count/models/my_sets.dart';
 import 'package:lego_count/models/sets.dart';
 import 'package:lego_count/screens/import.dart';
 import 'package:lego_count/utils/storage.dart';
-import 'package:lego_count/widgets/bottom_loader.dart';
 import 'package:lego_count/widgets/grid_card.dart';
-import 'package:lego_count/utils/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class MySetsScreen extends StatelessWidget {
   TextEditingController searchControl = TextEditingController();
@@ -29,8 +27,9 @@ class MySetsScreen extends StatelessWidget {
                     aspectRatio: 1,
                     child: Column(
                       children: <Widget>[
-                        CachedNetworkImage(
-                          imageUrl: sett.img,
+                        FadeInImage.memoryNetwork(
+                          image: sett.img,
+                          placeholder: kTransparentImage,
                           height: 95,
                         ),
                         Text(
@@ -42,7 +41,7 @@ class MySetsScreen extends StatelessWidget {
                       ],
                     )),
                 onTap: () {
-                  Navigator.of(context).pushNamed('/set/${sett.id}');
+                  Navigator.of(context).pushNamed('/set', arguments: sett.id);
                 },
               ))
           .toList();

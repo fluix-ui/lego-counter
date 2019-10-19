@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluix/fluix.dart';
 import 'package:lego_count/models/my_sets.dart';
@@ -7,16 +6,14 @@ import 'package:lego_count/screens/export.dart';
 import 'package:lego_count/utils/http.dart' as http;
 import 'package:lego_count/utils/storage.dart' as storage;
 import 'package:lego_count/widgets/custom_grid.dart';
-import 'package:lego_count/widgets/grid_card.dart';
+import 'package:lego_count/widgets/img.dart';
 import 'package:lego_count/widgets/part_img.dart';
 import 'package:provider/provider.dart';
 
 class SetDetailsScreen extends StatelessWidget {
-  final String id;
+  SetDetailsScreen({Key key}) : super(key: key);
 
-  SetDetailsScreen(this.id, {Key key}) : super(key: key);
-
-  Future<LegoSet> getData() async {
+  Future<LegoSet> getData(String id) async {
     var local = await storage.getMySet(id);
     if (local != null) return local;
     return await http.getSet(id);
@@ -24,6 +21,8 @@ class SetDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String id = ModalRoute.of(context).settings.arguments;
+
     return FluidShell(
       appBar: FluidBar(
         color: FluidTheme.of(context).primary.darker,
@@ -34,7 +33,7 @@ class SetDetailsScreen extends StatelessWidget {
       body: SingleChildScrollView(
           padding: EdgeInsets.all(16),
           child: FutureBuilder<LegoSet>(
-            future: getData(),
+            future: getData(id),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting ||
                   snapshot.data == null)
@@ -107,7 +106,7 @@ class SetDetailsScreen extends StatelessWidget {
                             icon: Icon(LiquidIcons.logistics),
                             child: Text("Zählen"),
                             onTap: () => Navigator.of(context)
-                                .pushNamed('count/${item.id}'),
+                                .pushNamed('/count', arguments: item.id),
                           ),
                           FluidIconButton.highlight(
                             icon: Icon(LiquidIcons.exportfile),
@@ -143,50 +142,74 @@ class SetDetailsScreen extends StatelessWidget {
                           savedSets.add(item);
                         }),
               ];
-              return Column(
-                children: <Widget>[
-                  FluidCard(
-                    alignChild: Alignment.center,
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 20),
-                    child: ResponsiveWidget(
-                      fallback: Center(child: Text("error")),
-                      mobile: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CachedNetworkImage(
-                            width: width / 2,
-                            imageUrl: item.img,
-                            placeholder: (context, str) =>
-                                CircularProgressIndicator(),
-                          ),
-                          ...cardContent
-                        ],
-                      ),
-                      tablet: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          CachedNetworkImage(
-                            width: width / 3,
-                            imageUrl: item.img,
-                            placeholder: (context, str) =>
-                                CircularProgressIndicator(),
-                          ),
-                          Expanded(
-                            child: Column(
-                              children: cardContent,
+              return ResponsiveWidget(
+                fallback: Column(
+                  children: <Widget>[
+                    FluidCard(
+                      alignChild: Alignment.center,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 8, vertical: 20),
+                      child: ResponsiveWidget(
+                        fallback: Center(child: Text("error")),
+                        mobile: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CustomImage(
+                              item.img,
+                              width: width / 2,
                             ),
-                          )
-                        ],
+                            ...cardContent,
+                          ],
+                        ),
+                        tablet: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            CustomImage(
+                              item.img,
+                              width: width / 3,
+                            ),
+                            Expanded(
+                              child: Column(
+                                children: cardContent,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  tabs
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: FluidTab("Teile",selected: true,),
-                  // ),
-                  // PartTab(item.parts)
-                ],
+                    tabs
+                    // Padding(
+                    //   padding: const EdgeInsets.all(8.0),
+                    //   child: FluidTab("Teile",selected: true,),
+                    // ),
+                    // PartTab(item.parts)
+                  ],
+                ),
+                desktop: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 500,
+                      child: FluidCard(
+                        alignChild: Alignment.center,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CustomImage(
+                              item.img,
+                              width: width / 2,
+                            ),
+                            ...cardContent,
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 16,),
+                    Expanded(child: tabs)
+                  ],
+                ),
               );
             },
           )),
